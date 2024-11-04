@@ -316,11 +316,13 @@ impl PgTypeInfo {
     /// The array type OID will be fetched from Postgres on use of a value of this type.
     /// The fetched OID will be cached per-connection.
     pub fn array_of(elem_name: &'static str) -> Self {
-        // to satisfy `name()` and `display_name()`, we need to construct strings to return
-        Self(PgType::DeclareArrayOf(Arc::new(PgArrayOf {
-            elem_name: elem_name.into(),
-            name: format!("{elem_name}[]").into(),
-        })))
+        println!("array_of({elem_name:?})");
+        Self(PgType::DeclareWithName(format!("_{elem_name}").into()))
+        // // to satisfy `name()` and `display_name()`, we need to construct strings to return
+        // Self(PgType::DeclareArrayOf(Arc::new(PgArrayOf {
+        //     elem_name: elem_name.into(),
+        //     name: format!("{elem_name}[]").into(),
+        // })))
     }
 
     /// Create a `PgTypeInfo` from an OID.
